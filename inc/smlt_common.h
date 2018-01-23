@@ -17,26 +17,49 @@ extern "C" {
 
 #include "stdlib.h"
 #include "list.h"
-#include  "..\port\smlt_port.h"
+#include  "smlt_cfg.h"
+#include  "smlt_port.h"
 
-#ifndef  FALSE
+
+#define  SMLT_VERSION            0x0100
+
+
+#ifndef   FALSE
 #define   FALSE                     (0)
 #endif
 #ifndef  TRUE
 #define  TRUE                       (1)
 
 /* exact-width signed integer types */
-typedef   signed		  char int8_t;
-typedef   signed short	   int int16_t;
-typedef   signed		   int int32_t;
-typedef   signed	   __INT64 int64_t;
+typedef   signed char        int8_t;
+typedef   signed short       int16_t;
+typedef   signed long        int32_t;
+typedef   signed long  long  int64_t;
 
 /* exact-width unsigned integer types */
-typedef unsigned		  char uint8_t;
-typedef unsigned short	   int uint16_t;
-typedef unsigned		   int uint32_t;
-typedef unsigned	   __INT64 uint64_t;
+typedef unsigned  char         uint8_t;
+typedef unsigned  short        uint16_t;
+typedef unsigned  long         uint32_t;
+typedef unsigned  long long    uint64_t;
 
+
+#define SMLT_PTR_FREE(ptr)                                              do                       \
+                                                                        {                        \
+                                                                             if (ptr)            \
+                                                                             {                   \
+                                                                                 free(ptr);      \
+                                                                                 ptr = NULL;     \
+                                                                              }                  \
+                                                                         }while (0)
+                             
+#define SMLT_PTR_CHECK(ptr, flag)                                        do                                                                           \
+                                                                         {                                                                            \
+                                                                              if (NULL == ptr)                                                        \
+                                                                              {                                                                       \
+                                                                                  smlt_err("%s(): %d point is NULL.\n", __FUNCTION__, __LINE__);      \
+                                                                                  goto flag;                                                          \
+                                                                              }                                                                       \
+                                                                         }while (0)
 
 #endif
 

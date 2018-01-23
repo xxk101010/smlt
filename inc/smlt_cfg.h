@@ -7,35 +7,22 @@
  * 其    他   :
  * 修改日志   :
 ***********************************************************************************/
-#ifndef _SMLT_PORT_H_
-#define  _SMLT_PORT_H_
+#ifndef  _SMLT_CFG_H_
+#define  _SMLT_CFG_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
+#define      SMLT_DEBUG
 
-#define    SMLT_MEMORY_MGMT
-#define    SMLT_PRINTF
+#define      SMLT_SWITCH_MODULE    (0x94)
+#define      SMLT_DIMM_MODULE      (0xE4)
 
-
-
-#ifndef       SMLT_MEMORY_MGMT
-#define       calloc                   calloc
-#define       malloc                   malloc
-#define       free                     free
-#else
-#define       SMLT_MEMORY_ADDR
-#define       SMLT_MEMORY_LEN
-#endif
-
-
-#ifdef        SMLT_PRINTF
-#define       smlt_printf  
-#else
-#define       smlt_printf  
-#endif
-
+/*   here to choose MODULE  */
+#define      SMLT_MODULE        SMLT_SWITCH_MODULE 
+/*   here to choose channel Num( less than 16)  */
+#define      SMLT_CHANNEL_NUM   6
 
 #ifdef __cplusplus
 };

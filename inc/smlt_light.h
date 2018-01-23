@@ -17,8 +17,8 @@
   Youhai.Jiang  2017/02/15         1.00              Create
 
 ************************************************************/
-#ifndef _SMLT_ENGINE_H_
-#define  _SMLT_ENGINE_H_
+#ifndef _SMLT_LIGHT_H_
+#define  _SMLT_LIGHT_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -28,18 +28,25 @@ extern "C" {
 #include "smlt_light.h"
 
 
-typedef struct _smlt_engine_t
-{
-    char dev_type;
-    /*   channel Num  */
-    char chNum;
-    char *JsonCfg;
-    char *MemCfg;
-    /*   list for ligth channel control  */
-    list_t *ltChCtr_list;   
-}smlt_engine_t;
+#define SMLT_LEVER_MAX  0xFF
 
-smlt_engine_t* smlt_engine_new(char *cfg);
+
+typedef struct _smlt_ltChCtr      // light phy channel ctr 
+{
+    /*   channel Number  */
+    char ChNo;
+    /*   is switch       */
+    char is_switch;
+    /*   ptr to cfg mem  */
+    void *CfgPtr;  
+    /*   current lever */
+    uint16_t curLever;
+    /*   dest lever    */
+    uint16_t destLever;
+        
+}smlt_ltChCtr_t;
+
+
 
 #ifdef __cplusplus
 };
