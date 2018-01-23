@@ -121,12 +121,14 @@ void smlt_lgObj_delete(smlt_ltObj_mgmt_t* ltObj)
   History    :
     2017/10/26, kun.xu create
 ************************************************************/
-void smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint32_t fade_time)
+int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint32_t fade_time)
 {
     uint16_t i = 0;
-
+    smlt_ltChCtr_t *ltNode = NULL;
     
 
+    ltNode = list_at(ltObj->ltObj_list, ch);
+    
     for(i=0;i<4;i++)
     {    
             if(((area_number==Device_Set_Pra.Memmory_7.Device_Area[i])||(area_number==0))&&((logic_channel==Device_Set_Pra.Memmory_8.Device_Set_Logic_Channel_1[i])||(logic_channel==0XFF)))
