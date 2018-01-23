@@ -21,8 +21,12 @@ extern "C" {
 
 /*   here to choose MODULE  */
 #define      SMLT_MODULE        SMLT_SWITCH_MODULE 
-/*   here to choose channel Num( less than 16)  */
+/*   here to choose channel Num(less than 16)  */
 #define      SMLT_CHANNEL_NUM   6
+/*   here to choose smlt poll freq (example 1000hz = delay 1ms)  */
+#define      SMLT_POLL_FREQ     1000
+/*   here to deside lever max  */
+#define      SMLT_LEVER_MAX     255
 
 #ifdef __cplusplus
 };

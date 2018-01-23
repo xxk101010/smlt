@@ -161,7 +161,7 @@ void Device_Switch_Fuc_Process(uint8_t area_number, uint8_t logic_channel,uint8_
                                     
                                  Device_Obj_Mage[i].Device_Change_Level=Device_Obj_Mage[i].Device_Current_Level-device_level;                                   
                                     
-                                 Device_Obj_Mage[i].Device_Fade_Step=    Device_Obj_Mage[i].Device_Fade_Time/ Device_Obj_Mage[i].Device_Change_Level;
+                                 Device_Obj_Mage[i].Device_Fade_Step=   Device_Obj_Mage[i].Device_Fade_Time/ Device_Obj_Mage[i].Device_Change_Level;
                                     
                                 if(Device_Obj_Mage[i].Device_Fade_Step==0)
                                 {

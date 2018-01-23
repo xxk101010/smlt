@@ -29,6 +29,7 @@ extern "C" {
 #endif
 #ifndef  TRUE
 #define  TRUE                       (1)
+#endif
 
 /* exact-width signed integer types */
 typedef   signed char        int8_t;

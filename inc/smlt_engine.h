@@ -39,7 +39,8 @@ typedef struct _smlt_engine_t
     list_t *ltChCtr_list;   
 }smlt_engine_t;
 
-smlt_engine_t* smlt_engine_new(char *cfg);
+void* smlt_engine_new(char *cfg);
+
 
 #ifdef __cplusplus
 };

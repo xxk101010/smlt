@@ -34,7 +34,7 @@
   History    :
     2017/10/26, kun.xu create
 ************************************************************/
-smlt_engine_t* smlt_engine_new(char *cfg)
+void* smlt_engine_new(char *cfg)
 {
     int8_t ret = 0;
     smlt_engine_t *pstSmltEngine = NULL;
@@ -54,15 +54,16 @@ smlt_engine_t* smlt_engine_new(char *cfg)
         ret = -1;
         goto FAIL;
     }
-    
+   
     return pstSmltEngine;
 FAIL:
     if(pstSmltEngine)
     {
         if(pstSmltEngine->ltChCtr_list) 
         {
-            
+            SMLT_PTR_FREE(pstSmltEngine->ltChCtr_list);
         }
+        SMLT_PTR_FREE(pstSmltEngine);
     }
     return ret;
 }

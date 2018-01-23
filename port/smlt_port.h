@@ -21,9 +21,9 @@ extern "C" {
 
 
 #ifndef       SMLT_MEMORY_MGMT
-#define       calloc                   calloc
-#define       malloc                   malloc
-#define       free                     free
+#define       smlt_calloc                   calloc
+#define       smlt_malloc                   malloc
+#define       smlt_free                     free
 #else
 #define       SMLT_MEMORY_ADDR
 #define       SMLT_MEMORY_LEN
