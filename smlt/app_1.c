@@ -130,7 +130,7 @@ void Device_Switch_Fuc_Process(uint8_t area_number, uint8_t logic_channel,uint8_
                             }
                             else
                             {
-                                if(device_level>Device_Obj_Mage[i].Device_Current_Level)       //½¥°µ
+                                if(device_level>Device_Obj_Mage[i].Device_Current_Level)  
                                 {
                                      
                                  Device_Obj_Mage[i].Device_Switch_state=Switch_On_to_Off;

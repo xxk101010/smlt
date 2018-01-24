@@ -121,108 +121,63 @@ void smlt_lgObj_delete(smlt_ltObj_mgmt_t* ltObj)
   History    :
     2017/10/26, kun.xu create
 ************************************************************/
-int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint32_t fade_time)
+int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint32_t fade_time, uint32_t delay_time)
 {
     uint16_t i = 0;
+    uint32_t time_change;
     smlt_ltChCtr_t *ltNode = NULL;
     
+    if(ltObj == NULL)
+    {
+        return -1;
+    }
+    
+    if(level == 0 || level == SMLT_LEVER_MAX)
+    {
+        return 0;
+    }   
 
     ltNode = list_at(ltObj->ltObj_list, ch);
-    
-    for(i=0;i<4;i++)
-    {    
-            if(((area_number==Device_Set_Pra.Memmory_7.Device_Area[i])||(area_number==0))&&((logic_channel==Device_Set_Pra.Memmory_8.Device_Set_Logic_Channel_1[i])||(logic_channel==0XFF)))
-            {  
-                   if((device_join & Device_Set_Pra.Memmory_7.Device_Jonn_1[i])==0)
-                    {
-                        continue;
-                    }        
-                    if(device_level==0)
-                    {
-                        continue;
-                    }                   
-                    if(fade_time==0) //渐变时间为0，说明是设置亮度
-                    {
-                                 if(stop_flag==SET)
-                                 {
-                                     Device_Obj_Mage[i].Device_Switch_state=Switch_Off;
-                                     Device_Obj_Mage[i].Device_Fade_Time=0;
-                                     Device_Obj_Mage[i].Device_Dest_Level= Device_Obj_Mage[i].Device_Current_Level;
-                                 }
-                                 else
-                                 {
-                                      if((Device_Set_Pra.Memmory_1.Device_Switch_Flag.Device_Switch_Flag_HD>>i)&0x01)  //不是开关量状态
-                                        {
-                                             Device_Obj_Mage[i].Device_Dest_Level =device_level;
-                                            
-                                             Device_Obj_Mage[i].Device_Fade_Time = fade_time;
-                                            
-                                             Device_Obj_Mage[i].Device_Pre_Level=device_level;
-                                             
-                                             Device_Obj_Mage[i].Device_Pre_Time= Effective_no_use_time(i)+L_To_T(device_level,i);
-                                        }
-                                        else 
-                                        {   
-                                                device_level = 0XFF-device_level;  
-                                                if(device_level<=Device_Set_Pra.Memmory_12.Device_Switch_Level[i])  //&& (Device_Obj_Mage[i].Device_Switch_state==Switch_Off)
-                                                {
-                                                    Device_Obj_Mage[i].Device_Pre_Time=  Fore_Time+Effective_time;      
-                                                }
-                                                else if(device_level>=Device_Set_Pra.Memmory_12.Device_Switch_Level[i]) //&&(Device_Obj_Mage[i].Device_Switch_state==Switch_On)
-                                                {
-                                                    Device_Obj_Mage[i].Device_Pre_Time=Fore_Time;
-                                                }    
-                                         }                                            
-                                 }
-                            }
-                            else
-                            {
-                                if(device_level>Device_Obj_Mage[i].Device_Current_Level)       //渐暗
-                                {
-                                     
-                                 Device_Obj_Mage[i].Device_Switch_state=Switch_On_to_Off;
-                                    
-                                 Device_Obj_Mage[i].Device_Pre_Level=Device_Obj_Mage[i].Device_Current_Level;//Device_Obj_Mage[i].Device_Current_Time;
-                                    
-                                 Device_Obj_Mage[i].Device_Fade_Time = fade_time;
-                                    
-                                 Device_Obj_Mage[i].Device_Change_Level=device_level-Device_Obj_Mage[i].Device_Current_Level; 
-                                                                                   
-                                 Device_Obj_Mage[i].Device_Fade_Step=    Device_Obj_Mage[i].Device_Fade_Time/ Device_Obj_Mage[i].Device_Change_Level;
-                                    
-                                if(Device_Obj_Mage[i].Device_Fade_Step==0)
-                                {
-                                    Device_Obj_Mage[i].Device_Fade_Step=1;
-                                }
-                                    
-                                 Device_Obj_Mage[i].Device_Dest_Level =device_level;
-                                        
-                                }
-                                else if(device_level<Device_Obj_Mage[i].Device_Current_Level)   //渐亮
-                                {
-                                 Device_Obj_Mage[i].Device_Switch_state=Switch_Off_to_On;
-                                    
-                                 Device_Obj_Mage[i].Device_Pre_Level=Device_Obj_Mage[i].Device_Current_Level;//Device_Obj_Mage[i].Device_Current_Time;
-                                    
-                                 Device_Obj_Mage[i].Device_Fade_Time= fade_time;//fade_time*10;
-                                    
-                                 Device_Obj_Mage[i].Device_Change_Level=Device_Obj_Mage[i].Device_Current_Level-device_level;                                   
-                                    
-                                 Device_Obj_Mage[i].Device_Fade_Step=   Device_Obj_Mage[i].Device_Fade_Time/ Device_Obj_Mage[i].Device_Change_Level;
-                                    
-                                if(Device_Obj_Mage[i].Device_Fade_Step==0)
-                                {
-                                    Device_Obj_Mage[i].Device_Fade_Step=1;
-                                }
-                                                                 
-                                 Device_Obj_Mage[i].Device_Dest_Level =device_level;
-                                }
-                            }
-        }
+    if(ltNode->curTime > LEVER_TO_TIME(level))
+    {
+        ltNode->fade_direction = SMLT_DIRE_DOWN;
+    }
+    else if(ltNode->curTime < LEVER_TO_TIME(level)
+    {
+        ltNode->fade_direction = SMLT_DIRE_UP;
+    }
+    else
+    {
+        ltNode->fade_direction = SMLT_DIRE_NONE;
+        ltNode->fade_step_cnt = 0;
+        ltNode->fade_time     = 0;
+        ltNode->delay_time    = 0;
+        return 0;  
     }
 
+    if(fade_time == 0)
+    {
+        fade_time = 1;
+    }
+    ltNode->destTime   = LEVER_TO_TIME(level);
+    if(ltNode->fade_direction == SMLT_DIRE_DOWN)
+    {
+        time_change = ltNode->curTime - ltNode->destTime;
+    }
+    else
+    {
+        time_change = ltNode->destTime - ltNode->curTime;
+    }
+    ltNode->fade_step = fade_time/time_change;
+    if(ltNode->fade_step == 0)
+    {
+       ltNode->fade_step = 1; 
+    }
+    ltNode->fade_step_cnt = 0;
+    ltNode->fade_time     = fade_time;
+    ltNode->delay_time    = delay_time;
+    return 0;
 }
-
 
 /************************************************************
   Function   : void smlt_key_remove(smlt_keyObj_mgmt_t *keyObj, void *keyHandle)
@@ -239,27 +194,35 @@ int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint
   History    :
     2017/10/26, kun.xu create
 ************************************************************/
-void smlt_light_process(smlt_ltChCtr_t *ltNode)
+void smlt_light_process(smlt_ltObj_mgmt_t* ltObj)
 {
     uint16_t i = 0;
 
-    for (i = 0; i < keyObj->key_num; i++)
+    for ( i = 0; i < ltObj->light_num; i++ )
     {
-        listNode = list_at(keyObj->keyObj_list, i);
-        keyNode = listNode->val;
-        if(keyNode->IoCallBack_fnPtr())
+        smlt_ltChCtr_t *ltNode = NULL;
+ 
+        ltNode = list_at(ltObj->ltObj_list, i);
+        if(ltNode->fade_time)
         {
-            keyNode->keyVal = KEY_DOWN;
-            keyNode->keyDownCnt++;
-            keyNode->keyUpCnt = 0;
-        }    
-        else
-        {
-            keyNode->keyVal = KEY_UP;
-            keyNode->keyUpCnt++;
-            keyNode->keyDownCnt = 0;
+            ltNode->fade_time--;
+            ltNode->fade_step_cnt = (ltNode->fade_step_cnt + 1)%ltNode->fade_step;
+            if(!ltNode->fade_step_cnt)
+            {
+                if(ltNode->curTime < ltNode->destTime)
+                {
+                    ltNode->curTime++;
+                }
+                else if(ltNode->curTime > ltNode->destTime)
+                {
+                    ltNode->curTime--;
+                } 
+            }          
         }
-        smlt_key_process(keyNode);    
+        else if(ltNode->delay_time)
+        {
+     
+        } 
     }
 }
 
