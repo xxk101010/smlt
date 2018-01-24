@@ -37,6 +37,20 @@ extern "C" {
 #define SMLT_DIRE_UP               1
 #define SMLT_DIRE_DOWN             2
 
+
+typedef enum _smlt_switch_sta
+{
+    SMLT_SWITCH_OFF=0,
+    
+    SMLT_SWITCH_ON=1,
+    
+    SMLT_SWITCH_OFF2ON,
+    
+    SMLT_SWITCH_ON2OFF,
+    
+}smlt_switch_sta_t;
+
+
 typedef struct _smlt_ltObj_mgmt
 {
     char      light_num;
@@ -71,7 +85,9 @@ typedef struct _smlt_ltChCtr      // light phy channel ctr
     /*   delay time  */
     uint32_t fade_time;
     /*   delay time  */
-    uint16_t delay_time;  
+    uint32_t delay_time;  
+   /*    switch status  */
+    uint8_t switch_status;
 }smlt_ltChCtr_t;
 
 smlt_ltObj_mgmt_t* smlt_lgObj_new(void);

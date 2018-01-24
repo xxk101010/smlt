@@ -22,15 +22,14 @@
 #include "smlt_light.h"
 
 /************************************************************
-  Function   : smlt_key_init()
+  smlt_ltObj_mgmt_t* smlt_lgObj_new(void)
 
   Description: config init
   Calls      :
   Called By  :
-  Input      : pstFendCfg   : config structure
-               cfg          : config bin file
+  Input      : 
   Output     :
-  Return     :
+  Return     : handle of light obj mgmt 
   Others     :
 
   History    :
@@ -83,13 +82,12 @@ FAIL:
 }
 
 /************************************************************
-  Function   : void* smlt_key_add(smlt_keyObj_mgmt_t *keyObj, void *IoGetReg, void *KeyEventCb)
+  Function   : void smlt_lgObj_delete(smlt_ltObj_mgmt_t* ltObj)
 
   Description: config init
   Calls      :
   Called By  :
-  Input      : pstFendCfg   : config structure
-               cfg          : config bin file
+  Input      : ltObj:   : handle of  light obj mgmt 
   Output     :
   Return     :
   Others     :
@@ -107,13 +105,12 @@ void smlt_lgObj_delete(smlt_ltObj_mgmt_t* ltObj)
 }
 
 /************************************************************
-  Function   : void smlt_key_remove(smlt_keyObj_mgmt_t *keyObj, void *keyHandle)
+  Function   : int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint32_t fade_time, uint32_t delay_time)
 
   Description: config init
   Calls      :
   Called By  :
-  Input      : pstFendCfg   : config structure
-               cfg          : config bin file
+  Input      : ltObj:   : handle of  light obj mgmt 
   Output     :
   Return     :
   Others     :
@@ -180,13 +177,12 @@ int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint
 }
 
 /************************************************************
-  Function   : void smlt_key_remove(smlt_keyObj_mgmt_t *keyObj, void *keyHandle)
+  Function   : void smlt_light_process(smlt_ltObj_mgmt_t* ltObj)
 
   Description: config init
   Calls      :
   Called By  :
-  Input      : pstFendCfg   : config structure
-               cfg          : config bin file
+  Input      : ltObj        : handle of  light obj mgmt 
   Output     :
   Return     :
   Others     :
@@ -212,16 +208,30 @@ void smlt_light_process(smlt_ltObj_mgmt_t* ltObj)
                 if(ltNode->curTime < ltNode->destTime)
                 {
                     ltNode->curTime++;
+                    if(ltNode->is_switch)
+                    {
+                        if(ltNode->curTime == ltNode->thresh_val)
+                        {
+                            ltNode->switch_status = SMLT_SWITCH_OFF2ON;
+                        }
+                    }
                 }
                 else if(ltNode->curTime > ltNode->destTime)
                 {
                     ltNode->curTime--;
+                    if(ltNode->is_switch)
+                    {
+                       if((ltNode->curTime + 1) == ltNode->thresh_val)
+                       {
+                           
+                       }
+                    }    
                 } 
             }          
         }
         else if(ltNode->delay_time)
         {
-     
+            ltNode->delay_time--;
         } 
     }
 }
