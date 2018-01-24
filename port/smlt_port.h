@@ -14,11 +14,10 @@
 extern "C" {
 #endif
 
+#include   "smlt_cfg.h"
 
-#define    SMLT_MEMORY_MGMT
-#define    SMLT_PRINTF
-
-
+#define       SMLT_MEMORY_MGMT
+#define       SMLT_PRINTF
 
 #ifndef       SMLT_MEMORY_MGMT
 #define       smlt_calloc                   calloc
@@ -36,6 +35,9 @@ extern "C" {
 #define       smlt_printf  
 #endif
 
+/*	 if you use light func, you shoule port IO here */
+#define        IO_SET_ON(n)                          
+#define        IO_SET_OFF(n)                          	
 
 #ifdef __cplusplus
 };

@@ -17,7 +17,6 @@ extern "C" {
 
 #include "stdlib.h"
 #include "list.h"
-#include  "smlt_cfg.h"
 #include  "smlt_port.h"
 
 

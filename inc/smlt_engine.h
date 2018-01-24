@@ -39,8 +39,9 @@ typedef struct _smlt_engine_t
     list_t *ltChCtr_list;   
 }smlt_engine_t;
 
-void* smlt_engine_new(char *cfg);
-
+void*  smlt_engine_new(char *cfg);
+int8_t smlt_engine_run(smlt_engine_t* pstSmltEngine);
+void   smlt_engine_delete(smlt_engine_t* pstSmltEngine);
 
 #ifdef __cplusplus
 };

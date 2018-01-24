@@ -223,16 +223,32 @@ void smlt_light_process(smlt_ltObj_mgmt_t* ltObj)
                     {
                        if((ltNode->curTime + 1) == ltNode->thresh_val)
                        {
-                           
+                           ltNode->switch_status = SMLT_SWITCH_ON2OFF;
                        }
                     }    
                 } 
             }          
         }
-        else if(ltNode->delay_time)
+		
+        if(ltNode->switch_status == SMLT_SWITCH_OFF2ON || ltNode->switch_status == SMLT_SWITCH_ON2OFF)
         {
-            ltNode->delay_time--;
+            if(ltNode->delay_time)
+            {
+                ltNode->delay_time--; 
+				if(ltNode->switch_status == SMLT_SWITCH_OFF2ON)
+				{
+			        IO_SET_ON(i);
+					ltNode->switch_status = SMLT_SWITCH_ON;
+					
+				}
+				else if(ltNode->switch_status == SMLT_SWITCH_ON2OFF)
+				{
+				    IO_SET_OFF(i);
+					ltNode->switch_status = SMLT_SWITCH_OFF;
+				}
+            }
         } 
+		
     }
 }
 
