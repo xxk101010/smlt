@@ -56,7 +56,7 @@ typedef enum
 
 typedef enum
 {
-	FSM_KEY_NONE = 0,
+	  FSM_KEY_NONE = 0,
     FSM_KEY_UP,                    //!< key released
     FSM_KEY_UP_HOLD,               //!< key released sure hold
     FSM_KEY_DOWN,                  //!< key press down
@@ -70,18 +70,18 @@ typedef struct _smlt_keyNode
 	uint8_t          keyVal;
 	smlt_keyFsm_t    KsyFsm;
 	smlt_keyEvent_t  KeyEvent;
-    smlt_IoGetStatus *IoGetStatus_fnPtr;
-	smlt_IoCallBack  *IoCallBack_fnPtr;
+  smlt_IoGetStatus IoGetStatus_fnPtr;
+	smlt_IoCallBack  IoCallBack_fnPtr;
 }smlt_keyNode_t;
 
 typedef struct _smlt_keyObj_mgmt
 {
-	int      keyObj_is_enalbe;
+	int        keyObj_is_enalbe;
     int      key_num;
     list_t   *keyObj_list;
 }smlt_keyObj_mgmt_t;
 
-void smlt_key_init(void);
+smlt_keyObj_mgmt_t* smlt_key_init(void);
 
 #ifdef __cplusplus
 };

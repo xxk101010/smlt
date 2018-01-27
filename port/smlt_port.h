@@ -16,7 +16,7 @@ extern "C" {
 
 #include   "smlt_cfg.h"
 
-#define       SMLT_MEMORY_MGMT
+//#define       SMLT_MEMORY_MGMT
 #define       SMLT_PRINTF
 
 #ifndef       SMLT_MEMORY_MGMT

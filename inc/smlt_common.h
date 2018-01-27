@@ -16,12 +16,10 @@ extern "C" {
 #endif
 
 #include "stdlib.h"
-#include "list.h"
+#include "smlt_list.h"
 #include  "smlt_port.h"
 
-
 #define  SMLT_VERSION            0x0100
-
 
 #ifndef   FALSE
 #define   FALSE                     (0)
@@ -60,8 +58,6 @@ typedef unsigned  long long    uint64_t;
                                                                                   goto flag;                                                          \
                                                                               }                                                                       \
                                                                          }while (0)
-
-#endif
 
 #ifdef __cplusplus
 };

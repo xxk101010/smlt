@@ -36,11 +36,9 @@
 ************************************************************/
 void* smlt_engine_new(char *cfg)
 {
-    int8_t ret = 0;
     smlt_engine_t *pstSmltEngine = NULL;
-    list_t *key_list = NULL;
 
-    pstSmltEngine = (smlt_keyObj_mgmt_t *)smlt_calloc(sizeof(smlt_keyObj_mgmt_t), 1);
+    pstSmltEngine = (smlt_engine_t *)smlt_calloc(sizeof(smlt_engine_t), 1);
     if(pstSmltEngine == NULL)
     {
         return  NULL;
@@ -51,10 +49,8 @@ void* smlt_engine_new(char *cfg)
     pstSmltEngine->ltChCtr_list = list_new();
     if(pstSmltEngine->ltChCtr_list == NULL)
     {   
-        ret = -1;
         goto FAIL;
     }
-   
     return pstSmltEngine;
 FAIL:
     if(pstSmltEngine)
@@ -65,7 +61,7 @@ FAIL:
         }
         SMLT_PTR_FREE(pstSmltEngine);
     }
-    return ret;
+    return NULL;
 }
 
 /************************************************************
@@ -108,6 +104,4 @@ void smlt_engine_delete(smlt_engine_t* pstSmltEngine)
         SMLT_PTR_FREE(pstSmltEngine);
     }
 }
-
-
 

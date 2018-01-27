@@ -23,7 +23,6 @@
 #include "smlt_key.h"
 
 static void smlt_key_process(smlt_keyNode_t *keyNode);
-
 /************************************************************
   Function   : smlt_key_init()
 
@@ -42,9 +41,8 @@ static void smlt_key_process(smlt_keyNode_t *keyNode);
 smlt_keyObj_mgmt_t* smlt_key_init(void)
 {
     smlt_keyObj_mgmt_t *keyObj = NULL;
-    list_t *key_list = NULL;
 
-    keyObj = (smlt_keyObj_t *)smlt_calloc(sizeof(smlt_keyObj_t), 1);
+    keyObj = (smlt_keyObj_mgmt_t *)smlt_calloc(sizeof(smlt_keyObj_mgmt_t), 1);
     if(keyObj)
     {
         return  NULL;
@@ -90,19 +88,19 @@ void *smlt_key_add(smlt_keyObj_mgmt_t *keyObj, void *IoGetReg, void *KeyEventCb)
     {
         return NULL;
     }
-    keyNode->IoGetStatus_fnPtr = IoGetReg;
-    keyNode->IoCallBack_fnPtr = KeyEventCb;
+    keyNode->IoGetStatus_fnPtr = (smlt_IoGetStatus)IoGetReg;
+    keyNode->IoCallBack_fnPtr = (smlt_IoCallBack)KeyEventCb;
     keyNode->KsyFsm = FSM_KEY_NONE;
     
     listNode = list_node_new(keyNode);
     if(listNode == NULL)
-     {
-         if(keyNode)
-          {
-              smlt_free(keyNode);  
-          }    
-         retutn NULL;
-     }
+    {
+        if(keyNode)
+        {
+			      smlt_free(keyNode);  
+        }    
+        return NULL;
+    }
     list_rpush(keyObj->keyObj_list, listNode);
     keyObj->key_num++;
     return (void *)listNode;
@@ -167,7 +165,7 @@ void smlt_key_scan(smlt_keyObj_mgmt_t *keyObj)
     {
         listNode = list_at(keyObj->keyObj_list, i);
         keyNode = listNode->val;
-        if(keyNode->IoCallBack_fnPtr())
+        if(keyNode->IoGetStatus_fnPtr())
         {
             keyNode->keyVal = KEY_DOWN;
             keyNode->keyDownCnt++;
@@ -202,7 +200,7 @@ static void smlt_key_process(smlt_keyNode_t *keyNode)
 {
     switch (keyNode->KsyFsm)
     {
-        case FSM_NOKEY:
+        case FSM_KEY_NONE:
         {
             if(keyNode->keyVal)
             {

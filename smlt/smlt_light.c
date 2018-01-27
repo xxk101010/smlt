@@ -39,7 +39,6 @@ smlt_ltObj_mgmt_t* smlt_lgObj_new(void)
 {
     uint8_t i;
     smlt_ltObj_mgmt_t *ltObj = NULL;
-    list_t *key_list = NULL;
 
     ltObj = (smlt_ltObj_mgmt_t *)smlt_calloc(sizeof(smlt_ltObj_mgmt_t), 1);
     if(ltObj)
@@ -50,7 +49,6 @@ smlt_ltObj_mgmt_t* smlt_lgObj_new(void)
     if(ltObj->ltObj_list == NULL)
     {
         goto FAIL;   
-        return NULL;
     }
     ltObj->light_num = SMLT_CHANNEL_NUM;
     for (i = 0; i < ltObj->light_num ; i++)
@@ -75,7 +73,7 @@ smlt_ltObj_mgmt_t* smlt_lgObj_new(void)
 FAIL:
     if(ltObj)
     {
-        smlt_lgObj_delete(ltObj)
+        smlt_lgObj_delete(ltObj);
     }
     return NULL;
 
@@ -120,9 +118,9 @@ void smlt_lgObj_delete(smlt_ltObj_mgmt_t* ltObj)
 ************************************************************/
 int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint32_t fade_time, uint32_t delay_time)
 {
-    uint16_t i = 0;
     uint32_t time_change;
     smlt_ltChCtr_t *ltNode = NULL;
+	  list_node_t *list_node = NULL;
     
     if(ltObj == NULL)
     {
@@ -134,12 +132,13 @@ int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint
         return 0;
     }   
 
-    ltNode = list_at(ltObj->ltObj_list, ch);
+    list_node = list_at(ltObj->ltObj_list, ch);
+		ltNode = (smlt_ltChCtr_t *)list_node->val;
     if(ltNode->curTime > LEVER_TO_TIME(level))
     {
         ltNode->fade_direction = SMLT_DIRE_DOWN;
     }
-    else if(ltNode->curTime < LEVER_TO_TIME(level)
+    else if(ltNode->curTime < LEVER_TO_TIME(level))
     {
         ltNode->fade_direction = SMLT_DIRE_UP;
     }
@@ -193,19 +192,22 @@ int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint
 void smlt_light_process(smlt_ltObj_mgmt_t* ltObj)
 {
     uint16_t i = 0;
+	  
 
     for ( i = 0; i < ltObj->light_num; i++ )
     {
-        smlt_ltChCtr_t *ltNode = NULL;
+       smlt_ltChCtr_t *ltNode = NULL;
+			 list_node_t *list_node = NULL;
  
-        ltNode = list_at(ltObj->ltObj_list, i);
+        list_node = list_at(ltObj->ltObj_list, i);
+		  	ltNode = (smlt_ltChCtr_t *)list_node->val;
         if(ltNode->fade_time)
         {
             ltNode->fade_time--;
             ltNode->fade_step_cnt = (ltNode->fade_step_cnt + 1)%ltNode->fade_step;
             if(!ltNode->fade_step_cnt)
             {
-                if(ltNode->curTime < ltNode->destTime)
+                if(ltNode->curTime < ltNode->destTime)
                 {
                     ltNode->curTime++;
                     if(ltNode->is_switch)
@@ -251,4 +253,3 @@ void smlt_light_process(smlt_ltObj_mgmt_t* ltObj)
 		
     }
 }
-
