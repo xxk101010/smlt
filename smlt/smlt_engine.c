@@ -37,7 +37,7 @@
 void* smlt_engine_new(char *cfg)
 {
     smlt_engine_t *pstSmltEngine = NULL;
-
+	
     pstSmltEngine = (smlt_engine_t *)smlt_calloc(sizeof(smlt_engine_t), 1);
     if(pstSmltEngine == NULL)
     {
@@ -46,12 +46,21 @@ void* smlt_engine_new(char *cfg)
     pstSmltEngine->dev_type = SMLT_MODULE;
     pstSmltEngine->chNum = SMLT_CHANNEL_NUM;
 
-    pstSmltEngine->ltChCtr_list = list_new();
-    if(pstSmltEngine->ltChCtr_list == NULL)
-    {   
-        goto FAIL;
-    }
-    return pstSmltEngine;
+    //pstSmltEngine->ltChCtr_list = list_new();
+    //if(pstSmltEngine->ltChCtr_list == NULL)
+    //{   
+    //    goto FAIL;
+    //}
+	/*  key related */
+	pstSmltEngine->keyObj =  smlt_key_init();
+	if(pstSmltEngine->keyObj == NULL)
+	{
+	    goto FAIL;
+	}
+	/* add serv key */
+	smlt_key_add(pstSmltEngine->keyObj, smlt_keyServ_get, smlt_servCallback, KEY_SERV_NAME);
+	return pstSmltEngine;
+	
 FAIL:
     if(pstSmltEngine)
     {
@@ -78,8 +87,16 @@ FAIL:
   History    :
     2017/10/26, kun.xu create
 ************************************************************/
-int8_t smlt_engine_run(smlt_engine_t* pstSmltEngine)
+int smlt_engine_run(void* pstSmltEng_handle)
 {
+    smlt_engine_t *pstSmltEngine = NULL;
+
+	  if(pstSmltEng_handle == NULL)
+	  {
+	      return -1;
+	  }
+	  pstSmltEngine = (smlt_engine_t *)pstSmltEng_handle;
+    smlt_key_scan(pstSmltEngine->keyObj);
     return 0;
 }
 
@@ -97,11 +114,11 @@ int8_t smlt_engine_run(smlt_engine_t* pstSmltEngine)
   History    :
     2017/10/26, kun.xu create
 ************************************************************/
-void smlt_engine_delete(smlt_engine_t* pstSmltEngine)
+void smlt_engine_delete(void* pstSmltEng_handle)
 {
-    if(pstSmltEngine)
+    if(pstSmltEng_handle)
     {
-        SMLT_PTR_FREE(pstSmltEngine);
+        SMLT_PTR_FREE(pstSmltEng_handle);
     }
 }
 

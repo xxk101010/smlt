@@ -37,7 +37,9 @@ extern "C" {
 
 /*	 if you use light func, you shoule port IO here */
 #define        IO_SET_ON(n)                          
-#define        IO_SET_OFF(n)                          	
+#define        IO_SET_OFF(n)     
+
+char smlt_keyServ_get(void);
 
 #ifdef __cplusplus
 };

@@ -15,9 +15,12 @@
 extern "C" {
 #endif
 
-#include "stdlib.h"
+#include <stdlib.h>
+#include <string.h>
+#include "smlt.h"
 #include "smlt_list.h"
-#include  "smlt_port.h"
+#include "smlt_port.h"
+
 
 #define  SMLT_VERSION            0x0100
 
@@ -28,17 +31,20 @@ extern "C" {
 #define  TRUE                       (1)
 #endif
 
+//#ifndef __stdint_h
 /* exact-width signed integer types */
-typedef   signed char        int8_t;
-typedef   signed short       int16_t;
-typedef   signed long        int32_t;
-typedef   signed long  long  int64_t;
+typedef   signed char        INT8_t;
+typedef   signed short       INT16_t;
+typedef   signed long        INT32_t;
+typedef   signed long  long  INT64_t;
 
 /* exact-width unsigned integer types */
-typedef unsigned  char         uint8_t;
-typedef unsigned  short        uint16_t;
-typedef unsigned  long         uint32_t;
-typedef unsigned  long long    uint64_t;
+typedef unsigned  char         UINT8_t;
+typedef unsigned  short        UINT16_t;
+typedef unsigned  long         UINT32_t;
+typedef unsigned  long long    UINT64_t;
+
+//#endif
 
 
 #define SMLT_PTR_FREE(ptr)                                              do                       \

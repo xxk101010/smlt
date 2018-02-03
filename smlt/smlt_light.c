@@ -1,5 +1,3 @@
-
-
 /************************************************************
   Copyright (C), AISpeechTech. Co., Ltd.
 
@@ -37,7 +35,7 @@
 ************************************************************/
 smlt_ltObj_mgmt_t* smlt_lgObj_new(void)
 {
-    uint8_t i;
+    UINT8_t i;
     smlt_ltObj_mgmt_t *ltObj = NULL;
 
     ltObj = (smlt_ltObj_mgmt_t *)smlt_calloc(sizeof(smlt_ltObj_mgmt_t), 1);
@@ -76,7 +74,6 @@ FAIL:
         smlt_lgObj_delete(ltObj);
     }
     return NULL;
-
 }
 
 /************************************************************
@@ -103,7 +100,7 @@ void smlt_lgObj_delete(smlt_ltObj_mgmt_t* ltObj)
 }
 
 /************************************************************
-  Function   : int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint32_t fade_time, uint32_t delay_time)
+  Function   : INT8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint32_t fade_time, uint32_t delay_time)
 
   Description: config init
   Calls      :
@@ -116,11 +113,11 @@ void smlt_lgObj_delete(smlt_ltObj_mgmt_t* ltObj)
   History    :
     2017/10/26, kun.xu create
 ************************************************************/
-int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint32_t fade_time, uint32_t delay_time)
+INT8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, UINT8_t ch, UINT16_t level, UINT32_t fade_time, UINT32_t delay_time)
 {
-    uint32_t time_change;
+    UINT32_t time_change;
     smlt_ltChCtr_t *ltNode = NULL;
-	  list_node_t *list_node = NULL;
+	list_node_t *list_node = NULL;
     
     if(ltObj == NULL)
     {
@@ -191,9 +188,8 @@ int8_t smlt_light_set(smlt_ltObj_mgmt_t* ltObj, uint8_t ch, uint16_t level, uint
 ************************************************************/
 void smlt_light_process(smlt_ltObj_mgmt_t* ltObj)
 {
-    uint16_t i = 0;
+    UINT16_t i = 0;
 	  
-
     for ( i = 0; i < ltObj->light_num; i++ )
     {
        smlt_ltChCtr_t *ltNode = NULL;
