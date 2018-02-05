@@ -18,9 +18,13 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 #include "smlt.h"
+#include "smlt_cfg.h"
 #include "smlt_list.h"
 #include "smlt_port.h"
 
+#ifdef SMLT_ARM_STM32F103
+#include   "smlt_arch.h"
+#endif
 
 #define  SMLT_VERSION            0x0100
 

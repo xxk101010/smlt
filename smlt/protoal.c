@@ -480,7 +480,7 @@ static void CMD_ACK(uint8_t* P_data)
 	 }
 	 CMD_Send_obj[i].CMD_Send_Occupy_Flag=1;
 	 memcpy(&CMD_Send_obj[i].CMD_Send_Buffer[0],P_data,8);
-	 osMessagePut(Send_QueueHandle, (uint32_t)&CMD_Send_obj[i].CMD_Send_Buffer[0], 10);
+	 osMessagePut(Send_QueueHandle, (UINT32_t)&CMD_Send_obj[i].CMD_Send_Buffer[0], 10);
 }
 
 void F5_CMD_send(uint8_t area,uint8_t join,uint8_t func,uint8_t payload_0,uint8_t payload_1,uint8_t payload_2)

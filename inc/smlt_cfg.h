@@ -27,9 +27,12 @@ extern "C" {
 #define      SMLT_POLL_FREQ        1000
 /*   here to deside lever max  */
 #define      SMLT_LEVER_MAX        255
-/*	 here to deside serv key  */
+/*     here to deside serv key  */
 #define      SMLT_SERV_KEY
 #define      KEY_SERV_NAME         "serv"
+/*     here to deside arch   */
+#define      SMLT_ARM_STM32F103
+
 
 #ifdef __cplusplus
 };

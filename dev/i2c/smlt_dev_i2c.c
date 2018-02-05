@@ -1,7 +1,35 @@
+/*-------------------------------------------------------------------------
+    
+-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------
+    
+-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------
+    
+-------------------------------------------------------------------------*/
+/************************************************************
+  Copyright (C), AISpeechTech. Co., Ltd.
 
+  FileName   : smlt_key.c
+  Project    :
+  Module     :
+  Version    :
+  Date       : 2018/1/20
+  Author     : kun.xu
+  Document   :
+  Description:
+
+  Function List :
+
+  History :
+  <author>      <time>            <version >        <desc>
+  kun.xu       2018/01/20            1.00            Create
+
+************************************************************/
 
 #include "smlt_dev_i2c.h"
-//#include "delay.h"
+#include "smlt_arch.h"
+
 
 /*********************************************************************************************************
 ** Function name:       IIC_Init
@@ -10,14 +38,24 @@
 ** output parameters:   Œﬁ
 ** Returned value:     
 *********************************************************************************************************/
-void IIC_Init(void)
-{                         
-    SCL_OUT();
-    SDA_OUT();     //sdaœﬂ ‰≥ˆ
-    Set_IIC_SCL;
-    Set_IIC_SDA;
-}
+smlt_sfI2c_eng_t* smlt_softI2c_new(char* cfg, void *modeSetFunc, void *IoSetFunc)
+{           
+    smlt_sfI2c_eng_t* pstSfI2c_eng;
 
+    pstSfI2c_eng =  (smlt_sfI2c_eng_t *)smlt_calloc(sizeof(smlt_sfI2c_eng_t), 1);
+    if(pstSfI2c_eng == NULL)
+    {
+        return NULL;
+    }
+
+    pstSfI2c_eng->i2cPortModeSet = modeSetFunc;
+    pstSfI2c_eng->i2cPortSet = IoSetFunc;
+
+    pstSfI2c_eng->i2cPortModeSet(SMLT_I2C_SDA, SMLT_I2C_OUTPUT);
+    pstSfI2c_eng->i2cPortModeSet(SMLT_I2C_SCL, SMLT_I2C_OUTPUT);
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SDA, SMLT_I2C_PORT_HIGH);
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SCL, SMLT_I2C_PORT_HIGH);
+}
 
 /*********************************************************************************************************
 ** Function name:       IIC_Start
@@ -26,17 +64,28 @@ void IIC_Init(void)
 ** output parameters:   Œﬁ
 ** Returned value:     
 *********************************************************************************************************/
-void IIC_Start(void)
+signed char smlt_sfI2c_start(smlt_sfI2c_eng_t *pstSfI2c_eng)
 {
-    SDA_OUT();     //sdaœﬂ ‰≥ˆ
-    Set_IIC_SDA;            
-    Set_IIC_SCL;
-    DelayXus(4);
-    //delay_us(1);
-     Clr_IIC_SDA;//START:when CLK is high,DATA change form high to low 
-    DelayXus(4);
-    Clr_IIC_SCL;//«Ø◊°I2C◊‹œﬂ£¨◊º±∏∑¢ÀÕªÚΩ” ’ ˝æ›
-    //DelayXus(1);    
+    if(pstSfI2c_eng == NULL)
+    {
+        return -1;
+    }
+    //SDA_OUT();
+    pstSfI2c_eng->i2cPortModeSet(SMLT_I2C_SDA, SMLT_I2C_OUTPUT);
+  
+    //Set_IIC_SDA;            
+    //Set_IIC_SCL;
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SDA, SMLT_I2C_PORT_HIGH);
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SCL, SMLT_I2C_PORT_HIGH);
+
+    //DelayXus(4);
+    smlt_delayUs(2);
+    //Clr_IIC_SDA;//START:when CLK is high,DATA change form high to low 
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SDA, SMLT_I2C_PORT_LOW);
+    //DelayXus(4);
+    smlt_delayUs(4);
+    //Clr_IIC_SCL;//«Ø◊°I2C◊‹œﬂ£¨◊º±∏∑¢ÀÕªÚΩ” ’ ˝æ›
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SCL, SMLT_I2C_PORT_LOW);
 }      
 
 
@@ -47,16 +96,28 @@ void IIC_Start(void)
 ** output parameters:   Œﬁ
 ** Returned value:     
 *********************************************************************************************************/
-void IIC_Stop(void)
+signed char smlt_sfI2c_stop(smlt_sfI2c_eng_t *pstSfI2c_eng)
 {
-    SDA_OUT();//sdaœﬂ ‰≥ˆ
-    Clr_IIC_SCL;
-    Clr_IIC_SDA;//STOP:when CLK is high DATA change form low to high
-    DelayXus(4);
-//     delay_us(1);
-    Set_IIC_SCL; 
-    Set_IIC_SDA;//∑¢ÀÕI2C◊‹œﬂΩ· ¯–≈∫≈
-    DelayXus(4);                                   
+    if(pstSfI2c_eng == NULL)
+    {
+        return -1;
+    }
+    //SDA_OUT();
+    pstSfI2c_eng->i2cPortModeSet(SMLT_I2C_SDA, SMLT_I2C_OUTPUT);
+    //Clr_IIC_SCL;
+    //Clr_IIC_SDA;//STOP:when CLK is high DATA change form low to high
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SCL, SMLT_I2C_PORT_LOW);
+    smlt_delayUs(1);
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SDA, SMLT_I2C_PORT_LOW);
+    //DelayXus(4);
+    smlt_delayUs(1);
+    //Set_IIC_SCL; 
+    //Set_IIC_SDA;
+    //DelayXus(4);  
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SCL, SMLT_I2C_PORT_HIGH);
+    smlt_delayUs(1);
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SDA, SMLT_I2C_PORT_HIGH);
+    smlt_delayUs(1);                            
 }
 
 /*********************************************************************************************************
@@ -67,25 +128,32 @@ void IIC_Stop(void)
 ** Returned value:         1£¨Ω” ’”¶¥ ß∞‹
                         0£¨Ω” ’”¶¥≥…π¶
 *********************************************************************************************************/
-uint8_t IIC_Wait_Ack(void)
+signed char smlt_sfI2c_ack_wait(smlt_sfI2c_eng_t *pstSfI2c_eng)
 {
     uint8_t ucErrTime=0;
-    SDA_IN();                          //SDA…Ë÷√Œ™ ‰»Î  
-    Set_IIC_SDA;
-    DelayXus(1);
-    //DelayXus(1);//delay_us(1);    //delay_us(1);       
-    Set_IIC_SCL;
-    DelayXus(1);
-  //    DelayXus(1);//delay_us(1);    //delay_us(1); 
-    while(READ_SDA)
-    {
-        ucErrTime++;
-        if(ucErrTime > 250)
-        {
-            IIC_Stop();
-            return 1;
-        }
-    }
+
+    //SDA_IN();  
+    pstSfI2c_eng->i2cPortModeSet(SMLT_I2C_SDA, SMLT_I2C_INPUT);
+                         
+    //Set_IIC_SDA;
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SDA, SMLT_I2C_PORT_HIGH);
+    //DelayXus(1);
+    //DelayXus(1);//delay_us(1);    //delay_us(1); 
+    smlt_delayUs(1);
+    //Set_IIC_SCL;
+    pstSfI2c_eng->i2cPortSet(SMLT_I2C_SCL, SMLT_I2C_PORT_HIGH);
+   // DelayXus(1);
+   //  DelayXus(1);//delay_us(1);    //delay_us(1); 
+    smlt_delayUs(1);    // ÂèØ‰ª•‰∏çÂª∂Êó∂
+    /* while(READ_SDA) */
+    /* { */
+        /* ucErrTime++; */
+        /* if(ucErrTime > 250) */
+        /* { */
+            /* IIC_Stop(); */
+            /* return -11; */
+        /* } */
+    /* } */
     Clr_IIC_SCL;                    // ±÷” ‰≥ˆ0        
     return 0;  
 } 
