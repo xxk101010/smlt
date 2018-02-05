@@ -26,10 +26,10 @@ static void  smlt_key_process(smlt_keyNode_t *keyNode);
   Description: config init
   Calls      :
   Called By  :
-  Input      : pstFendCfg   : config structure
-               cfg          : config bin file
+  Input      : 
+ 
   Output     :
-  Return     :
+  Return     :  the handle of key obj
   Others     :
 
   History    :
