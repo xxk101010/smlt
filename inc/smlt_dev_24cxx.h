@@ -7,7 +7,6 @@
 extern "C" {
 #endif
 
-
 typedef enum _smlt_AT24xx_types
 {
     SMLT_DEV_AT24C01 = 0,
