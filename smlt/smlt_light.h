@@ -25,6 +25,8 @@ extern "C" {
 #endif
 
 #include "smlt_common.h"
+#include "smlt_cfg.h"
+#include "smlt_list.h"
 
 #if (SMLT_MODULE==SMLT_SWITCH_MODULE)
 #define LEVER_TO_TIME(l)       (l)           

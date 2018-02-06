@@ -25,12 +25,10 @@ extern "C" {
 #endif
 
 #include "smlt_common.h"
+#include "smlt_cfg.h"
 #include "smlt_dev_key.h"
 
-
-
 char smlt_servCallback(char event);
-
 
 
 #ifdef __cplusplus

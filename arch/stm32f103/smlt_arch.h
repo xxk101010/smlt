@@ -2,6 +2,9 @@
 #ifndef __SMLT_ARCH_H__
 #define __SMLT_ARCH_H__
 
+#define  SMLT_ARM_STM32F103
+
+#include "port/smlt_port.h"
 
 #if   defined ( __CC_ARM )
   #define __ASM            __asm                                      /*!< asm keyword for ARM Compiler          */
@@ -20,7 +23,6 @@
 
 #define SMLT_CPU             8000000L
 #define SMLT_DEALY_CNT       (SMLT_CPU/1000/1000/4)
-
 
 #pragma push     
 #pragma O3         

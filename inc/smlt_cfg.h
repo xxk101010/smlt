@@ -30,9 +30,6 @@ extern "C" {
 /*     here to deside serv key  */
 #define      SMLT_SERV_KEY
 #define      KEY_SERV_NAME         "serv"
-/*     here to deside arch   */
-#define      SMLT_ARM_STM32F103
-
 
 #ifdef __cplusplus
 };

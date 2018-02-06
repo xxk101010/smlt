@@ -25,6 +25,7 @@ extern "C" {
 #endif
 
 #include "smlt_common.h"
+#include "smlt_list.h"
 
 typedef char (*smlt_IoGetStatus)(void);
 typedef char (*smlt_IoCallBack)(char);

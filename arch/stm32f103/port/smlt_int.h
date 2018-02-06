@@ -14,7 +14,6 @@
 extern "C" {
 #endif
 
-#include   "smlt_cfg.h"
 
 #ifdef __cplusplus
 };

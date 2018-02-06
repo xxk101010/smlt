@@ -26,14 +26,15 @@ typedef struct _smlt_sfI2c_eng
     smlt_i2cPortGet     i2cPortGet;
 }smlt_sfI2c_eng_t;
 
-smlt_sfI2c_eng_t* smlt_softI2c_new(char* cfg, void *modeSetFunc, void *IoSetFunc, void *ioGetFunc);
+smlt_sfI2c_eng_t* smlt_softI2c_new(char* cfg, void *modeSetFunc, void *IoSetFunc, void *IoGetFunc);
+void smlt_softI2c_delete(smlt_sfI2c_eng_t *pstSfI2c_eng);
 signed char smlt_sfI2c_start(smlt_sfI2c_eng_t *pstSfI2c_eng);
 signed char smlt_sfI2c_stop(smlt_sfI2c_eng_t *pstSfI2c_eng);
 signed char smlt_sfI2c_ack_wait(smlt_sfI2c_eng_t *pstSfI2c_eng);
 signed char smlt_sfI2c_ack(smlt_sfI2c_eng_t *pstSfI2c_eng);
 signed char smlt_sfI2c_Nack(smlt_sfI2c_eng_t *pstSfI2c_eng);
 signed char smlt_sfI2c_TxdByte(smlt_sfI2c_eng_t *pstSfI2c_eng, char txd);
-signed char smlt_sfI2c_rcvByte(smlt_sfI2c_eng_t *pstSfI2c_eng, char ack)
+signed char smlt_sfI2c_rcvByte(smlt_sfI2c_eng_t *pstSfI2c_eng, char ack);
  
 #ifdef __cplusplus
 };

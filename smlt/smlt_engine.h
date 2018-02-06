@@ -25,6 +25,7 @@ extern "C" {
 #endif
 
 #include "smlt_common.h"
+#include "smlt_cfg.h"
 #include "smlt_light.h"
 #include "smlt_dev_key.h"
 #include "smlt_key.h"

@@ -24,7 +24,8 @@
 extern "C" {
 #endif
 
-#include "smlt_common.h"
+//#include "smlt_common.h"
+#include "smlt_port.h"
 
 #define smlt_err(...)           do    \
                                 {     \

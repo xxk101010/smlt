@@ -44,7 +44,7 @@
   History    :
     2017/10/26, kun.xu create
 ************************************************************/
-smlt_sfI2c_eng_t* smlt_softI2c_new(char* cfg, void *modeSetFunc, void *IoSetFunc, void *ioGetFunc)
+smlt_sfI2c_eng_t* smlt_softI2c_new(char* cfg, void *modeSetFunc, void *IoSetFunc, void *IoGetFunc)
 {           
     smlt_sfI2c_eng_t* pstSfI2c_eng;
 
@@ -63,6 +63,30 @@ smlt_sfI2c_eng_t* smlt_softI2c_new(char* cfg, void *modeSetFunc, void *IoSetFunc
     pstSfI2c_eng->i2cPortSet(SMLT_I2C_SDA, SMLT_I2C_PORT_HIGH);
     pstSfI2c_eng->i2cPortSet(SMLT_I2C_SCL, SMLT_I2C_PORT_HIGH);
 }
+
+/************************************************************
+  Function   : smlt_sfI2c_eng_t* smlt_softI2c_new(char* cfg, void *modeSetFunc, void *IoSetFunc, void *ioGetFunc)
+
+  Description: config init
+  Calls      :
+  Called By  :
+  Input      : 
+ 
+  Output     :
+  Return     :  the handle of key obj
+  Others     :
+
+  History    :
+    2017/10/26, kun.xu create
+************************************************************/
+void smlt_softI2c_delete(smlt_sfI2c_eng_t *pstSfI2c_eng)
+{           
+    if(pstSfI2c_eng)
+    {
+        smlt_free(pstSfI2c_eng);
+    }
+}
+
 
 /************************************************************
   Function   : signed char smlt_sfI2c_start(smlt_sfI2c_eng_t *pstSfI2c_eng)
