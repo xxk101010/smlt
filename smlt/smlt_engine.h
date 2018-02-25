@@ -35,12 +35,16 @@ typedef struct _smlt_engine_t
     char dev_type;
     /*   channel Num  */
     char chNum;
+	/*   box Number   */
+	char boxNo;
+	/*   cfg json     */
     char *JsonCfg;
+	/*   cfg Mem      */
     char *MemCfg;
 	/*   key object mgmt    */
 	smlt_keyObj_mgmt_t *keyObj;
     /*   list for ligth channel control      */
-    list_t *ltChCtr_list;   
+    smlt_ltObj_mgmt_t *ltChCtr_list;   
 }smlt_engine_t;
 
 

@@ -19,13 +19,12 @@
   kun.xu       2018/01/20            1.00            Create
 
 ************************************************************/
+#include "smlt_memmap.h"
+#include "smlt_light.h"
 
-#include "smlt_int.h"
-
-
-
-
-
-
+char smlt_memUpdate(char event)
+{
+    return 0;
+}
 
 

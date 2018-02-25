@@ -20,7 +20,7 @@
 
 ************************************************************/
 #include "smlt_key.h"
-#include "protoal.h"
+//#include "protoal.h"
 
 
 char smlt_servCallback(char event)
@@ -33,7 +33,7 @@ char smlt_servCallback(char event)
         }
         case KEY_EVENT_DOWN:
         {
-            CMD_Search_CMD();
+            //CMD_Search_CMD();
             break;
         }
         case KEY_EVENT_PRESSED:
